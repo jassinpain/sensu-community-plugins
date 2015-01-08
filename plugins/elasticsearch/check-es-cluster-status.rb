@@ -57,8 +57,7 @@ class ESClusterStatus < Sensu::Plugin::Check::CLI
 
   def get_es_resource(resource)
     begin
-      # removed / before resource since our version of Elasticsearch 404's on //_cluster
-      r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}#{resource}", :timeout => config[:timeout])
+      r = RestClient::Resource.new("http://#{config[:host]}:#{config[:port]}/#{resource}", :timeout => config[:timeout])
       JSON.parse(r.get)
     rescue Errno::ECONNREFUSED
       critical 'Connection refused'
